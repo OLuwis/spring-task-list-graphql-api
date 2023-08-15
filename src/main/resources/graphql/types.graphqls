@@ -1,0 +1,14 @@
+type Todo {
+    id: ID!
+    title: String!
+    description: String!
+    status: Boolean!
+    userid: ID!
+}
+
+type User {
+    id: ID!
+    username: String!
+    email: String!
+    password: String!
+}

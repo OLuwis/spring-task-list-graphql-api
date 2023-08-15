@@ -1,0 +1,7 @@
+type Mutation {
+    userSignup(username: String!, email: String!, password: String!): User!
+    createTodo(title: String!, description: String!): Todo!
+    deleteTodo(id: ID!): String!
+    updateTodo(title: String!, description: String!, status: Boolean!): Todo!
+    completeTodo: Todo!
+}
