@@ -1,8 +1,6 @@
 package com.luwis.application.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import com.luwis.application.user.exceptions.WrongPasswordException;
@@ -12,7 +10,6 @@ public class UserService {
 
     private UserUtils userUtils = new UserUtils();
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    private JwtEncoderParameters jwtEncoder; 
     
     public UserModel signup(String username, String email, String password) {
 
