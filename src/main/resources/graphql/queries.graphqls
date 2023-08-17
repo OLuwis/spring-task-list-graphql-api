@@ -1,4 +1,4 @@
 type Query {
     getTodos(userid: ID!): [Todo!]
-    userLogin(email: String!, password: String!): User!
+    userLogin(email: String!, password: String!): String!
 }
