@@ -1,0 +1,8 @@
+query userLogin($email: String!, $password: String!) {
+    userLogin(email: $email, password: $password) {
+        id
+        username
+        email
+        password
+    }
+}

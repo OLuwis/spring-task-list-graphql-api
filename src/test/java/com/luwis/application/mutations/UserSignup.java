@@ -1,6 +1,5 @@
-package com.luwis.application.integration.user;
+package com.luwis.application.mutations;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import com.luwis.application.user.UserRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureHttpGraphQlTester
-public class TestMutationUserSignup {
+public class UserSignup {
 
     @Autowired
     private HttpGraphQlTester tester;
@@ -25,8 +24,8 @@ public class TestMutationUserSignup {
     void shouldReturnUserDetails() {
         
         String username = "Luis";
-        String email = "oluismrs@gmail.com";
-        String password = "Luis260902!";
+        String email = "test1@gmail.com";
+        String password = "123456Ab!";
         
         tester.documentName("userSignup")
         .variable("username", username)
@@ -34,12 +33,14 @@ public class TestMutationUserSignup {
         .variable("password", password)
         .execute()
         .path("$['data']['userSignup']", path -> {
+
             path
             .path("['username']").entity(String.class).isEqualTo(username)
 
             .path("['email']").entity(String.class).isEqualTo(email)
 
-            .path("['password']").entity(String.class).isEqualTo(password);
+            .path("['password']").entity(String.class).isNotEqualTo(password);
+            
         });
         
     }
@@ -48,7 +49,7 @@ public class TestMutationUserSignup {
     void shouldReturnInvalidPassword() {
 
         String username = "Luis";
-        String email = "oluismrs@gmail.com";
+        String email = "test2@gmail.com";
         String password = "12345678";
 
         tester.documentName("userSignup")
@@ -57,10 +58,12 @@ public class TestMutationUserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
+            
             path
             .path("['message']").entity(String.class).isEqualTo("Invalid Password: Passwords Must Be Between 8-20 Characters Long And Contain A Number, An Upper And Lowercase Letter, And A Special Symbol")
 
             .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+
         });
 
     }
@@ -69,8 +72,8 @@ public class TestMutationUserSignup {
     void shouldReturnInvalidEmail() {
 
         String username = "Luis";
-        String email = "oluismrs@.com";
-        String password = "Luis260902!";
+        String email = "test3@.com";
+        String password = "123456Ab!";
 
         tester.documentName("userSignup")
         .variable("username", username)
@@ -78,10 +81,12 @@ public class TestMutationUserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
+            
             path
             .path("['message']").entity(String.class).isEqualTo("Invalid Email: Please Put A Valid Email")
 
             .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+            
         });
 
     }
@@ -90,8 +95,8 @@ public class TestMutationUserSignup {
     void shouldReturnInvalidUsername() {
 
         String username = "Lu";
-        String email = "oluismrs@gmail.com";
-        String password = "Luis260902!";
+        String email = "test4@gmail.com";
+        String password = "123456Ab!";
 
         tester.documentName("userSignup")
         .variable("username", username)
@@ -99,10 +104,12 @@ public class TestMutationUserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
+
             path
             .path("['message']").entity(String.class).isEqualTo("Invalid Username: Usernames Must Be Between 3-20 Characters Long")
 
             .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+            
         });
 
     }
@@ -111,7 +118,7 @@ public class TestMutationUserSignup {
     void shouldReturnEmailAlreadyUsed() {
 
         String username = "Luis";
-        String email = "testing@gmail.com";
+        String email = "test5@gmail.com";
         String password = "Luis260902!";
 
         UserModel newUser = new UserModel(username, email, password);
@@ -123,10 +130,12 @@ public class TestMutationUserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
+
             path
             .path("['message']").entity(String.class).isEqualTo("Invalid Email: Email Is Already In Use")
 
-            .path("['extensions']['classification']").entity(String.class).isEqualTo("INTERNAL_ERROR");
+            .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+            
         });
 
     }
