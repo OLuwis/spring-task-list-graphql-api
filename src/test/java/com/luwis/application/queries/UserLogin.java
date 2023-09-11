@@ -60,7 +60,6 @@ public class UserLogin {
 
     @Test
     void shouldReturnUserNotFound() {
-        String username = "test2";
         String email = "test2@gmail.com";
         String password = "123456Ab!";
 
