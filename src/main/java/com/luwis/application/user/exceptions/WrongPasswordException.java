@@ -9,7 +9,7 @@ public class WrongPasswordException extends RuntimeException {
         return GraphQLError
             .newError()
             .errorType(ErrorType.BAD_REQUEST)
-            .message("Error: Wrong Password")
+            .message("Wrong Password")
             .build();
     }
 }

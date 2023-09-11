@@ -11,6 +11,7 @@ import com.luwis.application.user.exceptions.InvalidEmailException;
 import com.luwis.application.user.exceptions.InvalidPasswordException;
 import com.luwis.application.user.exceptions.InvalidUsernameException;
 import com.luwis.application.user.exceptions.UserNotFoundException;
+import com.luwis.application.user.exceptions.WrongPasswordException;
 
 @Component
 public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter {
@@ -27,6 +28,8 @@ public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter
         if (ex instanceof EmailTakenException) return new EmailTakenException().error();
 
         if (ex instanceof UserNotFoundException) return new UserNotFoundException().error();
+
+        if (ex instanceof WrongPasswordException) return new WrongPasswordException().error();
         
         return null;
 

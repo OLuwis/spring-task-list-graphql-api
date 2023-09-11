@@ -9,7 +9,7 @@ public class UserNotFoundException extends RuntimeException {
         return GraphQLError
             .newError()
             .errorType(ErrorType.NOT_FOUND)
-            .message("Error: User Does Not Exist")
+            .message("User Doesn't Exist")
             .build();
     }
 }
