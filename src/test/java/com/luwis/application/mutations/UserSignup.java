@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureHttpGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.HttpGraphQlTester;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.luwis.application.user.UserModel;
 import com.luwis.application.user.UserRepository;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureHttpGraphQlTester
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserSignup {
 
     @Autowired
@@ -104,7 +105,7 @@ public class UserSignup {
         String email = "test5@gmail.com";
         String password = "Luis260902!";
 
-        UserModel newUser = new UserModel(username, email, password);
+        UserModel newUser = new UserModel(username, email, new BCryptPasswordEncoder().encode(password));
         userRepository.save(newUser);
 
         tester.documentName("userSignup")

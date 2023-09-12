@@ -14,7 +14,7 @@ import com.luwis.application.user.exceptions.UserNotFoundException;
 import com.luwis.application.user.exceptions.WrongPasswordException;
 
 @Component
-public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter {
+public class ExceptionHandler extends DataFetcherExceptionResolverAdapter {
 
     @Override
     protected GraphQLError resolveToSingleError(Throwable ex, DataFetchingEnvironment env) {

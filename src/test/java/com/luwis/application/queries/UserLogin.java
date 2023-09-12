@@ -26,9 +26,7 @@ public class UserLogin {
 
     @Autowired
     private UserRepository userRepository;
-
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
+    
     @Value("${JWT_SECRET}")
     private String secret;
 
@@ -38,9 +36,7 @@ public class UserLogin {
         String email = "test1@gmail.com";
         String password = "123456Ab!";
 
-        Algorithm algorithm = Algorithm.HMAC256(secret);
-
-        UserModel user = new UserModel(username, email, encoder.encode(password));
+        UserModel user = new UserModel(username, email, new BCryptPasswordEncoder().encode(password));
         userRepository.save(user);
 
         tester.documentName("userLogin")
@@ -48,13 +44,13 @@ public class UserLogin {
         .variable("password", password)
         .execute()
         .path("$['data']['userLogin']", path -> {
-            DecodedJWT jwt = JWT.require(algorithm)
+            DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secret))
                                 .build()
                                 .verify(path.entity(String.class).get());
                                 
            assertEquals("Luwis", jwt.getIssuer());
            assertEquals(1, jwt.getClaim("id").asLong());
-           assertEquals("test", jwt.getClaim("username").asString());
+           assertEquals("test", jwt.getClaim("username"));
         });
     }
 
@@ -82,7 +78,7 @@ public class UserLogin {
         String password = "123456Ab!";
         String wrongPass = "12345";
 
-        UserModel user = new UserModel(username, email, encoder.encode(password));
+        UserModel user = new UserModel(username, email, new BCryptPasswordEncoder().encode(password));
         userRepository.save(user);
 
         tester.documentName("userLogin")

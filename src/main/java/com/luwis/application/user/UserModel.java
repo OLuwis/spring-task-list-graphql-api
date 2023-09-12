@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 
 @Entity
 public class UserModel {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -42,6 +41,5 @@ public class UserModel {
 
     public String getPassword() {
         return password;
-    }
-    
+    }    
 }
