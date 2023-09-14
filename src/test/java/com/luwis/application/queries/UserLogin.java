@@ -44,13 +44,13 @@ public class UserLogin {
         .variable("password", password)
         .execute()
         .path("$['data']['userLogin']", path -> {
-            DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secret))
+            DecodedJWT decoder = JWT.require(Algorithm.HMAC256(secret))
                                 .build()
                                 .verify(path.entity(String.class).get());
                                 
-           assertEquals("Luwis", jwt.getIssuer());
-           assertEquals(1, jwt.getClaim("id").asLong());
-           assertEquals("test", jwt.getClaim("username"));
+           assertEquals("Luwis", decoder.getIssuer());
+           assertEquals(1, decoder.getClaim("id").asLong());
+           assertEquals("test", decoder.getClaim("username"));
         });
     }
 

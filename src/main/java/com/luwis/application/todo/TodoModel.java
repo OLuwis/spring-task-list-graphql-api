@@ -13,20 +13,20 @@ public class TodoModel {
     private Long id;
     private String title;
     private String description;
-    private Boolean status;
-    private Long userId;
+    private Boolean status = false;
+    private Long userid;
 
     protected TodoModel() {}
 
-    public TodoModel(String title, String description, Long userId) {
+    public TodoModel(String title, String description, Long userid) {
         this.title = title;
         this.description = description;
-        this.userId = userId;
+        this.userid = userid;
     }
 
     @Override
     public String toString() {
-        return String.format("TodoModel[id=%d, title='%s', description='%s', status='%b', userId='%d']", id, title, description, status, userId);
+        return String.format("TodoModel[id=%d, title='%s', description='%s', status='%b', userId='%d']", id, title, description, status, userid);
     }
 
     public Long getId() {
@@ -45,8 +45,8 @@ public class TodoModel {
         return status;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUserid() {
+        return userid;
     }    
     
 }

@@ -6,6 +6,9 @@ import graphql.schema.DataFetchingEnvironment;
 import org.springframework.stereotype.Component;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 
+import com.luwis.application.todo.exceptions.InvalidDescriptionException;
+import com.luwis.application.todo.exceptions.InvalidTitleException;
+import com.luwis.application.todo.exceptions.UnauthorizedException;
 import com.luwis.application.user.exceptions.EmailTakenException;
 import com.luwis.application.user.exceptions.InvalidEmailException;
 import com.luwis.application.user.exceptions.InvalidPasswordException;
@@ -18,7 +21,6 @@ public class ExceptionHandler extends DataFetcherExceptionResolverAdapter {
 
     @Override
     protected GraphQLError resolveToSingleError(Throwable ex, DataFetchingEnvironment env) {
-
         if (ex instanceof InvalidPasswordException) return new InvalidPasswordException().error();
 
         if (ex instanceof InvalidEmailException) return new InvalidEmailException().error();
@@ -30,8 +32,13 @@ public class ExceptionHandler extends DataFetcherExceptionResolverAdapter {
         if (ex instanceof UserNotFoundException) return new UserNotFoundException().error();
 
         if (ex instanceof WrongPasswordException) return new WrongPasswordException().error();
+
+        if (ex instanceof UnauthorizedException) return new UnauthorizedException().error();
+
+        if (ex instanceof InvalidTitleException) return new InvalidTitleException().error();
+
+        if (ex instanceof InvalidDescriptionException) return new InvalidDescriptionException().error();
         
         return null;
-
     }
 }
