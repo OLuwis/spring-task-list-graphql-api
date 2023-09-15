@@ -1,5 +1,9 @@
 package com.luwis.application.mutations;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +14,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.luwis.application.user.UserModel;
 import com.luwis.application.user.UserRepository;
+import com.luwis.application.user.exceptions.EmailTakenException;
+import com.luwis.application.user.exceptions.InvalidEmailException;
+import com.luwis.application.user.exceptions.InvalidPasswordException;
+import com.luwis.application.user.exceptions.InvalidUsernameException;
 
 @AutoConfigureHttpGraphQlTester
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserSignup {
-
+    
     @Autowired
     private HttpGraphQlTester tester;
 
@@ -33,12 +41,19 @@ public class UserSignup {
         .variable("password", password)
         .execute()
         .path("$['data']['userSignup']", path -> {
-            path
-            .path("['username']").entity(String.class).isEqualTo(username)
+            String responseUsername = path.path("['username']").entity(String.class).get();
 
-            .path("['email']").entity(String.class).isEqualTo(email)
+            String responseEmail = path.path("['email']").entity(String.class).get();
 
-            .path("['password']").entity(String.class).isNotEqualTo(password);
+            String responsePassword = path.path("['password']").entity(String.class).get();
+
+            assertAll(
+                "shouldReturnUserDetails",
+
+                () -> assertEquals(responseUsername, username),
+                () -> assertEquals(responseEmail, email),
+                () -> assertTrue(new BCryptPasswordEncoder().matches(password, responsePassword))
+            );
         });
     }
 
@@ -54,10 +69,18 @@ public class UserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
-            path
-            .path("['message']").entity(String.class).isEqualTo("Invalid Password: Passwords Must Be Between 8-20 Characters Long And Contain A Number, An Upper And Lowercase Letter, And A Special Symbol")
+            InvalidPasswordException exception = new InvalidPasswordException();
 
-            .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+            String errorMessage = path.path("['message']").entity(String.class).get();
+
+            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
+
+            assertAll(
+                "shouldReturnInvalidPassword",
+
+                () -> assertEquals(errorMessage, exception.message),
+                () -> assertEquals(errorType, exception.type)
+            );
         });
     }
 
@@ -73,10 +96,18 @@ public class UserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
-            path
-            .path("['message']").entity(String.class).isEqualTo("Invalid Email: Please Put A Valid Email")
+            InvalidEmailException exception = new InvalidEmailException();
 
-            .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+            String errorMessage = path.path("['message']").entity(String.class).get();
+
+            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
+
+            assertAll(
+                "shouldReturnInvalidEmail",
+
+                () -> assertEquals(errorMessage, exception.message),
+                () -> assertEquals(errorType, exception.type)
+            );
         });
     }
 
@@ -92,10 +123,18 @@ public class UserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
-            path
-            .path("['message']").entity(String.class).isEqualTo("Invalid Username: Usernames Must Be Between 3-20 Characters Long")
+            InvalidUsernameException exception = new InvalidUsernameException();
 
-            .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+            String errorMessage = path.path("['message']").entity(String.class).get();
+
+            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
+
+            assertAll(
+                "shouldReturnInvalidUsername",
+
+                () -> assertEquals(errorMessage, exception.message),
+                () -> assertEquals(errorType, exception.type)
+            );
         });
     }
 
@@ -114,11 +153,20 @@ public class UserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
-            path
-            .path("['message']").entity(String.class).isEqualTo("Invalid Email: Email Is Already In Use")
+            EmailTakenException exception = new EmailTakenException();
 
-            .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+            String errorMessage = path
+            .path("['message']").entity(String.class).get();
+
+            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
+
+            assertAll(
+                "shouldReturnEmailAlreadyUsed",
+
+                () -> assertEquals(errorMessage, exception.message),
+                () -> assertEquals(errorType, exception.type)
+            );
         });
     }
-
+       
 }

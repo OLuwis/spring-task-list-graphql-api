@@ -1,5 +1,6 @@
 package com.luwis.application.queries;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.luwis.application.user.UserModel;
 import com.luwis.application.user.UserRepository;
+import com.luwis.application.user.exceptions.UserNotFoundException;
+import com.luwis.application.user.exceptions.WrongPasswordException;
 
 @AutoConfigureHttpGraphQlTester
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -44,13 +47,21 @@ public class UserLogin {
         .variable("password", password)
         .execute()
         .path("$['data']['userLogin']", path -> {
-            DecodedJWT decoder = JWT.require(Algorithm.HMAC256(secret))
-                                .build()
-                                .verify(path.entity(String.class).get());
-                                
-           assertEquals("Luwis", decoder.getIssuer());
-           assertEquals(1, decoder.getClaim("id").asLong());
-           assertEquals("test", decoder.getClaim("username"));
+            String token = path.entity(String.class).get();
+
+            DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secret))
+            .build()
+            .verify(token);
+
+            Long tokenUserid = jwt.getClaim("id").asLong();
+            String tokenUsername = jwt.getClaim("username").asString();
+
+            assertAll(
+                "shouldReturnToken",
+
+                () -> assertEquals(1, tokenUserid),
+                () -> assertEquals(username, tokenUsername)
+            );
         });
     }
 
@@ -64,10 +75,18 @@ public class UserLogin {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
-            path
-            .path("['message']").entity(String.class).isEqualTo("User Doesn't Exist")
+            UserNotFoundException exception = new UserNotFoundException();
 
-            .path("['extensions']['classification']").entity(String.class).isEqualTo("NOT_FOUND");
+            String errorMessage = path.path("['message']").entity(String.class).get();
+
+            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
+
+            assertAll(
+                "shouldReturnUserNotFound",
+
+                () -> assertEquals(errorMessage, exception.message),
+                () -> assertEquals(errorType, exception.type)
+            );
         });
     }
 
@@ -75,21 +94,29 @@ public class UserLogin {
     void shouldReturnWrongPassword() {
         String username = "test3";
         String email = "test3@gmail.com";
-        String password = "123456Ab!";
-        String wrongPass = "12345";
+        String truePassword = "123456Ab!";
+        String falsePassword = "12345";
 
-        UserModel user = new UserModel(username, email, new BCryptPasswordEncoder().encode(password));
+        UserModel user = new UserModel(username, email, new BCryptPasswordEncoder().encode(truePassword));
         userRepository.save(user);
 
         tester.documentName("userLogin")
         .variable("email", email)
-        .variable("password", wrongPass)
+        .variable("password", falsePassword)
         .execute()
         .path("$['errors'][0]", path -> {
-            path
-            .path("['message']").entity(String.class).isEqualTo("Wrong Password")
+            WrongPasswordException exception = new WrongPasswordException();
 
-            .path("['extensions']['classification']").entity(String.class).isEqualTo("BAD_REQUEST");
+            String errorMessage = path.path("['message']").entity(String.class).get();
+
+            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
+
+            assertAll(
+                "shouldReturnWrongPassword",
+                
+                () -> assertEquals(errorMessage, exception.message),
+                () -> assertEquals(errorType, exception.type)    
+            );
         });
     }
 

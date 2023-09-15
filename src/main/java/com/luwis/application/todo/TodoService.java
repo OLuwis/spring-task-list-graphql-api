@@ -1,5 +1,7 @@
 package com.luwis.application.todo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,9 +36,10 @@ public class TodoService {
 
         String token = header.split(" ")[1];
 
-        DecodedJWT decoder = JWT.require(Algorithm.HMAC256(secret))
-                                .build()
-                                .verify(token);
+        DecodedJWT decoder = JWT
+        .require(Algorithm.HMAC256(secret))
+        .build()
+        .verify(token);
 
         Long userid = decoder.getClaim("id").asLong();
 
@@ -44,4 +47,22 @@ public class TodoService {
 
         return todoRepository.save(newTodo);
     }
+
+    public List<TodoModel> getTodos(String header) {
+        boolean hasToken = header.contains("Bearer ") ? true : false;
+
+        if (!hasToken) throw new UnauthorizedException();
+
+        String token = header.split(" ")[1];
+
+        DecodedJWT decoder = JWT
+        .require(Algorithm.HMAC256(secret))
+        .build()
+        .verify(token);
+
+        Long userid = decoder.getClaim("id").asLong();
+
+        return todoRepository.findAllByUserid(userid);
+    }
+    
 }
