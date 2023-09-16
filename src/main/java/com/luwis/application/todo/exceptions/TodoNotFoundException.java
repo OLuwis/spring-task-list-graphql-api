@@ -5,9 +5,9 @@ import org.springframework.graphql.execution.ErrorType;
 import graphql.GraphQLError;
 
 public class TodoNotFoundException extends RuntimeException {
-    public String message = "Todo Not Found";
+    private String message = "Todo Not Found";
 
-    public String type = ErrorType.NOT_FOUND.toString();
+    private String type = ErrorType.NOT_FOUND.toString();
     
     public GraphQLError error() {
         return GraphQLError
@@ -15,5 +15,13 @@ public class TodoNotFoundException extends RuntimeException {
         .errorType(ErrorType.NOT_FOUND)
         .message(message)
         .build();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getType() {
+        return type;
     }
 }

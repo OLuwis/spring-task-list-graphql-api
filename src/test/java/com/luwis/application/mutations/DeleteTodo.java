@@ -81,8 +81,8 @@ public class DeleteTodo {
             assertAll(
                 "shouldReturnInvalidTitle",
                 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }

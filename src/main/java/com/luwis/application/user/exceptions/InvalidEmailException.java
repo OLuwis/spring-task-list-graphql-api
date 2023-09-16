@@ -6,9 +6,9 @@ import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 
 public class InvalidEmailException extends RuntimeException {
-    public String message = "Invalid Email: Please Put A Valid Email";
+    private String message = "Invalid Email: Please Put A Valid Email";
 
-    public String type = ErrorType.BAD_REQUEST.toString();
+    private String type = ErrorType.BAD_REQUEST.toString();
     
     public GraphQLError error() {
         return GraphqlErrorBuilder
@@ -16,5 +16,13 @@ public class InvalidEmailException extends RuntimeException {
         .errorType(ErrorType.BAD_REQUEST)
         .message(message)
         .build();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getType() {
+        return type;
     }
 }

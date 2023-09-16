@@ -78,8 +78,8 @@ public class UserSignup {
             assertAll(
                 "shouldReturnInvalidPassword",
 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }
@@ -105,8 +105,8 @@ public class UserSignup {
             assertAll(
                 "shouldReturnInvalidEmail",
 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }
@@ -132,8 +132,8 @@ public class UserSignup {
             assertAll(
                 "shouldReturnInvalidUsername",
 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }
@@ -163,8 +163,8 @@ public class UserSignup {
             assertAll(
                 "shouldReturnEmailAlreadyUsed",
 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }

@@ -84,8 +84,8 @@ public class UserLogin {
             assertAll(
                 "shouldReturnUserNotFound",
 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }
@@ -114,8 +114,8 @@ public class UserLogin {
             assertAll(
                 "shouldReturnWrongPassword",
                 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)    
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())    
             );
         });
     }

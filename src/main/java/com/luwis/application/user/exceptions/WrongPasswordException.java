@@ -5,9 +5,9 @@ import org.springframework.graphql.execution.ErrorType;
 import graphql.GraphQLError;
 
 public class WrongPasswordException extends RuntimeException {
-    public String message = "Wrong Password";
+    private String message = "Wrong Password";
 
-    public String type = ErrorType.BAD_REQUEST.toString();
+    private String type = ErrorType.BAD_REQUEST.toString();
     
     public GraphQLError error() {
         return GraphQLError
@@ -15,5 +15,13 @@ public class WrongPasswordException extends RuntimeException {
         .errorType(ErrorType.BAD_REQUEST)
         .message(message)
         .build();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getType() {
+        return type;
     }
 }

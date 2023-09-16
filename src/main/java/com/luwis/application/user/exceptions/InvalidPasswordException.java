@@ -6,9 +6,9 @@ import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 
 public class InvalidPasswordException extends RuntimeException {
-    public String message = "Invalid Password: Passwords Must Be Between 8-20 Characters Long And Contain A Number, An Upper And Lowercase Letter, And A Special Symbol";
+    private String message = "Invalid Password: Passwords Must Be Between 8-20 Characters Long And Contain A Number, An Upper And Lowercase Letter, And A Special Symbol";
 
-    public String type = ErrorType.BAD_REQUEST.toString();
+    private String type = ErrorType.BAD_REQUEST.toString();
 
     public GraphQLError error() {
         return GraphqlErrorBuilder
@@ -16,5 +16,13 @@ public class InvalidPasswordException extends RuntimeException {
         .errorType(ErrorType.BAD_REQUEST)
         .message(message)
         .build();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getType() {
+        return type;
     }
 }

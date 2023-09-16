@@ -201,8 +201,8 @@ public class UpdateTodo {
             assertAll(
                 "shouldReturnInvalidTitle",
                 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }
@@ -237,8 +237,8 @@ public class UpdateTodo {
             assertAll(
                 "shouldReturnInvalidTitle",
                 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }
@@ -273,8 +273,8 @@ public class UpdateTodo {
             assertAll(
                 "shouldReturnInvalidTitle",
                 
-                () -> assertEquals(errorMessage, exception.message),
-                () -> assertEquals(errorType, exception.type)
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }
