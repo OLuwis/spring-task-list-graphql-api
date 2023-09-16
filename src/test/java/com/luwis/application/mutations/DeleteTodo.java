@@ -1,4 +1,4 @@
-package com.luwis.application.queries;
+package com.luwis.application.mutations;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,25 +14,25 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.luwis.application.todo.TodoModel;
 import com.luwis.application.todo.TodoRepository;
-import com.luwis.application.todo.exceptions.UnauthorizedException;
+import com.luwis.application.todo.exceptions.TodoNotFoundException;
 
 @AutoConfigureHttpGraphQlTester
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GetTodos {
+public class DeleteTodo {
     
     @Value("${JWT_SECRET}")
     private String secret;
+    
+    @Autowired
+    private TodoRepository todoRepository;
 
     @Autowired
     private HttpGraphQlTester tester;
 
-    @Autowired
-    private TodoRepository todoRepository;
-
     @Test
-    void shouldReturnAnArrayOfTodos() {
+    void shouldReturnTodoDeletionMessage() {
         long id = 1;
-        
+
         String token = JWT.create()
         .withClaim("id", id)
         .withClaim("username", "Luis")
@@ -40,34 +40,39 @@ public class GetTodos {
         .sign(Algorithm.HMAC256(secret));
 
         TodoModel todo = new TodoModel("Title", "Desc", id);
-        todoRepository.save(todo);
+        TodoModel savedTodo = todoRepository.save(todo);
 
         tester.mutate()
         .header("Authorization", "Bearer " + token)
         .build()
-        .documentName("getTodos")
+        .documentName("deleteTodo")
+        .variable("id", savedTodo.getId())
         .execute()
-        .path("$['data']['getTodos']", path -> {
-            String title = path.path("[0]['title']").entity(String.class).get();
-            String desc = path.path("[0]['description']").entity(String.class).get();
-            
-            Long userid = path.path("[0]['userid']").entity(Long.class).get();
+        .path("$['data']['deleteTodo']", path -> {
+            String message = path.entity(String.class).get();
 
-            assertAll(
-                "shouldReturnAnArrayOfTodos",
-                () -> assertEquals(title, todo.getTitle()),
-                () -> assertEquals(desc, todo.getDescription()),
-                () -> assertEquals(userid, id)
-            );
+            assertEquals(message, "Todo Deleted!");
         });
     }
 
     @Test
-    void shouldReturnActionNotAllowed() {
-        tester.documentName("getTodos")
+    void shouldReturnTodoNotFound() {
+        long id = 1;
+
+        String token = JWT.create()
+        .withClaim("id", id)
+        .withClaim("username", "Luis")
+        .withIssuer("Luwis")
+        .sign(Algorithm.HMAC256(secret));
+
+        tester.mutate()
+        .header("Authorization", "Bearer " + token)
+        .build()
+        .documentName("deleteTodo")
+        .variable("id", 1)
         .execute()
         .path("$['errors'][0]", path -> {
-            UnauthorizedException exception = new UnauthorizedException();
+            TodoNotFoundException exception = new TodoNotFoundException();
 
             String errorMessage = path.path("['message']").entity(String.class).get();
 
@@ -79,24 +84,6 @@ public class GetTodos {
                 () -> assertEquals(errorMessage, exception.message),
                 () -> assertEquals(errorType, exception.type)
             );
-        });
-    }
-
-    @Test
-    void shouldReturnAnEmptyArray() {
-        String token = JWT.create()
-        .withClaim("id", 1)
-        .withClaim("username", "Luis")
-        .withIssuer("Luwis")
-        .sign(Algorithm.HMAC256(secret));
-
-        tester.mutate()
-        .header("Authorization", "Bearer " + token)
-        .build()
-        .documentName("getTodos")
-        .execute()
-        .path("$['data']['getTodos']", path -> {
-            path.path("[0]").pathDoesNotExist();
         });
     }
 

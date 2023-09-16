@@ -12,9 +12,9 @@ public class InvalidUsernameException extends RuntimeException {
     
     public GraphQLError error() {
         return GraphqlErrorBuilder
-            .newError()
-            .errorType(ErrorType.BAD_REQUEST)
-            .message(message)
-            .build();
+        .newError()
+        .errorType(ErrorType.BAD_REQUEST)
+        .message(message)
+        .build();
     }
 }

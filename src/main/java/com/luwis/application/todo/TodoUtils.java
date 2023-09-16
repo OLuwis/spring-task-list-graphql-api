@@ -1,22 +1,45 @@
 package com.luwis.application.todo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.luwis.application.todo.exceptions.InvalidDescriptionException;
+import com.luwis.application.todo.exceptions.InvalidTitleException;
+import com.luwis.application.todo.exceptions.UnauthorizedException;
 
 @Component
 public class TodoUtils {
-    public boolean isTitleValid(String title) {
-        boolean valid = true;
 
-        if (title.length() == 0) valid = false;
+    @Value("${JWT_SECRET}")
+    private String secret;
+    
+    public String isTitleValid(String title) {
+        if (title.length() == 0) throw new InvalidTitleException();
 
-        return valid;
+        return title;
     }
     
-    public boolean isDescriptionValid(String description) {
-        boolean valid = true;
+    public String isDescriptionValid(String description) {
+        if (description.length() == 0) throw new InvalidDescriptionException();
 
-        if (description.length() == 0) valid = false;
+        return description;
+    }
 
-        return valid;
+    public long isTokenValid(String header) {
+        boolean hasToken = header.contains("Bearer ") ? true : false;
+
+        if (!hasToken) throw new UnauthorizedException();
+
+        String token = header.split(" ")[1];
+
+        DecodedJWT decoder = JWT
+        .require(Algorithm.HMAC256(secret))
+        .build()
+        .verify(token);
+
+        return decoder.getClaim("id").asLong();
     }
 }

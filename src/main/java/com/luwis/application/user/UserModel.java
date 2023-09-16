@@ -9,7 +9,7 @@ import jakarta.persistence.GenerationType;
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     private String username;
     private String email;
     private String password;
@@ -27,7 +27,7 @@ public class UserModel {
         return String.format("UserModel[id=%d, username='%s', email='%s', password='%s']", id, username, email, password);
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

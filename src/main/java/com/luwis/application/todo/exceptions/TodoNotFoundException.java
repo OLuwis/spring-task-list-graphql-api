@@ -4,15 +4,15 @@ import org.springframework.graphql.execution.ErrorType;
 
 import graphql.GraphQLError;
 
-public class InvalidDescriptionException extends RuntimeException {
-    public String message = "Invalid Description: Please Insert A Description";
+public class TodoNotFoundException extends RuntimeException {
+    public String message = "Todo Not Found";
 
-    public String type = ErrorType.BAD_REQUEST.toString();
-
+    public String type = ErrorType.NOT_FOUND.toString();
+    
     public GraphQLError error() {
         return GraphQLError
         .newError()
-        .errorType(ErrorType.BAD_REQUEST)
+        .errorType(ErrorType.NOT_FOUND)
         .message(message)
         .build();
     }

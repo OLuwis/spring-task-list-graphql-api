@@ -11,9 +11,9 @@ public class UnauthorizedException extends RuntimeException {
     
     public GraphQLError error() {
         return GraphQLError
-            .newError()
-            .errorType(ErrorType.UNAUTHORIZED)
-            .message(message)
-            .build();
+        .newError()
+        .errorType(ErrorType.UNAUTHORIZED)
+        .message(message)
+        .build();
     }
 }

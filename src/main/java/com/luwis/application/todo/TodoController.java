@@ -1,6 +1,7 @@
 package com.luwis.application.todo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -27,4 +28,14 @@ public class TodoController extends RequestHeaderInterceptor {
         return todoService.getTodos(authHeader);
     }
     
+    @MutationMapping
+    public String deleteTodo(@Argument long id, @ContextValue String authHeader) {
+        return todoService.deleteTodo(id, authHeader);
+    }
+
+    @MutationMapping
+    public TodoModel updateTodo(@Argument Optional<String> title, @Argument Optional<String> description, @Argument Optional<Boolean> status, @Argument long id, @ContextValue String authHeader) {
+        return todoService.updateTodo(title, description, status, id, authHeader);
+    }
+
 }

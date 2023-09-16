@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.luwis.application.user.UserModel;
 import com.luwis.application.user.UserRepository;
-import com.luwis.application.user.exceptions.EmailTakenException;
+import com.luwis.application.user.exceptions.UserRegisteredException;
 import com.luwis.application.user.exceptions.InvalidEmailException;
 import com.luwis.application.user.exceptions.InvalidPasswordException;
 import com.luwis.application.user.exceptions.InvalidUsernameException;
@@ -153,7 +153,7 @@ public class UserSignup {
         .variable("password", password)
         .execute()
         .path("$['errors'][0]", path -> {
-            EmailTakenException exception = new EmailTakenException();
+            UserRegisteredException exception = new UserRegisteredException();
 
             String errorMessage = path
             .path("['message']").entity(String.class).get();

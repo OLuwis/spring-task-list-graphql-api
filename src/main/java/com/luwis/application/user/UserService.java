@@ -7,12 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.luwis.application.user.exceptions.EmailTakenException;
-import com.luwis.application.user.exceptions.InvalidEmailException;
-import com.luwis.application.user.exceptions.InvalidPasswordException;
-import com.luwis.application.user.exceptions.InvalidUsernameException;
-import com.luwis.application.user.exceptions.UserNotFoundException;
-import com.luwis.application.user.exceptions.WrongPasswordException;
 
 @Service
 public class UserService {
@@ -26,13 +20,13 @@ public class UserService {
     private String secret;
     
     public UserModel signup(String username, String email, String password) {
-        UserModel user = userRepository.findByEmail(email);
+        email = userUtils.isEmailValid(email);
 
-        if (user != null) throw new EmailTakenException();
+        userUtils.isUserRegistered(email, false);
 
-        if (!userUtils.isPasswordValid(password)) throw new InvalidPasswordException();
-        if (!userUtils.isEmailValid(email)) throw new InvalidEmailException();
-        if (!userUtils.isUsernameValid(username)) throw new InvalidUsernameException();
+        password = userUtils.isPasswordValid(password);
+
+        username = userUtils.isUsernameValid(username);
 
         UserModel newUser = new UserModel(username, email, new BCryptPasswordEncoder().encode(password));
 
@@ -40,16 +34,12 @@ public class UserService {
     }
 
     public String login(String email, String password) {
-        if (!userUtils.isEmailValid(email)) throw new InvalidEmailException();
+        email = userUtils.isEmailValid(email);
 
-        UserModel user = userRepository.findByEmail(email);
+        UserModel user = userUtils.isUserRegistered(email, true);
 
-        if (user == null) throw new UserNotFoundException();
-
-        boolean isPasswordCorrect = new BCryptPasswordEncoder().matches(password, user.getPassword());
-
-        if (!isPasswordCorrect) throw new WrongPasswordException();
-
+        userUtils.isPasswordCorrect(password, user.getPassword());
+        
         return JWT.create()
         .withClaim("id", user.getId())
         .withClaim("username", user.getUsername())

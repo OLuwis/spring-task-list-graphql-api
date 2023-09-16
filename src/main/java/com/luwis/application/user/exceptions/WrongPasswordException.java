@@ -11,9 +11,9 @@ public class WrongPasswordException extends RuntimeException {
     
     public GraphQLError error() {
         return GraphQLError
-            .newError()
-            .errorType(ErrorType.BAD_REQUEST)
-            .message(message)
-            .build();
+        .newError()
+        .errorType(ErrorType.BAD_REQUEST)
+        .message(message)
+        .build();
     }
 }

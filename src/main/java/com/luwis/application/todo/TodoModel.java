@@ -10,15 +10,15 @@ public class TodoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     private String title;
     private String description;
-    private Boolean status = false;
-    private Long userid;
+    private boolean status = false;
+    private long userid;
 
     protected TodoModel() {}
 
-    public TodoModel(String title, String description, Long userid) {
+    public TodoModel(String title, String description, long userid) {
         this.title = title;
         this.description = description;
         this.userid = userid;
@@ -29,7 +29,7 @@ public class TodoModel {
         return String.format("TodoModel[id=%d, title='%s', description='%s', status='%b', userId='%d']", id, title, description, status, userid);
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -41,12 +41,24 @@ public class TodoModel {
         return description;
     }
 
-    public Boolean getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public Long getUserid() {
+    public long getUserid() {
         return userid;
-    }    
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
     
 }

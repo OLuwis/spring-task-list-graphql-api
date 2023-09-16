@@ -11,9 +11,9 @@ public class UserNotFoundException extends RuntimeException {
 
     public GraphQLError error() {
         return GraphQLError
-            .newError()
-            .errorType(ErrorType.NOT_FOUND)
-            .message(message)
-            .build();
+        .newError()
+        .errorType(ErrorType.NOT_FOUND)
+        .message(message)
+        .build();
     }
 }
