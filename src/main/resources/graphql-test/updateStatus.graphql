@@ -1,0 +1,9 @@
+mutation updateStatus($id: ID!) {
+    updateStatus(id: $id) {
+        id
+        title
+        description
+        status
+        userid
+    }
+}

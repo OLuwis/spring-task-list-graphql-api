@@ -17,9 +17,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.luwis.application.todo.TodoModel;
 import com.luwis.application.todo.TodoRepository;
-import com.luwis.application.todo.exceptions.InvalidDescriptionException;
-import com.luwis.application.todo.exceptions.InvalidTitleException;
-import com.luwis.application.todo.exceptions.TodoNotFoundException;
 
 @AutoConfigureHttpGraphQlTester
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -168,113 +165,6 @@ public class UpdateTodo {
                 () -> assertEquals("Title", title),
                 () -> assertEquals("Desc", description),
                 () -> assertTrue(status)
-            );
-        });
-    }
-
-    @Test
-    void shouldReturnTodoNotFound() {
-        long id = 1;
-
-        String token = JWT.create()
-        .withClaim("id", id)
-        .withClaim("username", "Luis")
-        .withIssuer("Luwis")
-        .sign(Algorithm.HMAC256(secret));
-
-        tester.mutate()
-        .header("Authorization", "Bearer " + token)
-        .build()
-        .documentName("updateTodo")
-        .variable("id", 1)
-        .variable("title", "newTitle")
-        .variable("description", "newDesc")
-        .variable("status", true)
-        .execute()
-        .path("$['errors'][0]", path -> {
-            TodoNotFoundException exception = new TodoNotFoundException();
-
-            String errorMessage = path.path("['message']").entity(String.class).get();
-
-            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
-
-            assertAll(
-                "shouldReturnInvalidTitle",
-                
-                () -> assertEquals(errorMessage, exception.getMessage()),
-                () -> assertEquals(errorType, exception.getType())
-            );
-        });
-    }
-
-    @Test
-    void shouldReturnInvalidTitle() {
-        long id = 1;
-
-        String token = JWT.create()
-        .withClaim("id", id)
-        .withClaim("username", "Luis")
-        .withIssuer("Luwis")
-        .sign(Algorithm.HMAC256(secret));
-
-        TodoModel newTodo = new TodoModel("Title", "Desc", id);
-        TodoModel todo = todoRepository.save(newTodo);
-
-        tester.mutate()
-        .header("Authorization", "Bearer " + token)
-        .build()
-        .documentName("updateTodo")
-        .variable("id", todo.getId())
-        .variable("title", "")
-        .execute()
-        .path("$['errors'][0]", path -> {
-            InvalidTitleException exception = new InvalidTitleException();
-
-            String errorMessage = path.path("['message']").entity(String.class).get();
-
-            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
-
-            assertAll(
-                "shouldReturnInvalidTitle",
-                
-                () -> assertEquals(errorMessage, exception.getMessage()),
-                () -> assertEquals(errorType, exception.getType())
-            );
-        });
-    }
-
-    @Test
-    void shoudlReturnInvalidDesc() {
-        long id = 1;
-
-        String token = JWT.create()
-        .withClaim("id", id)
-        .withClaim("username", "Luis")
-        .withIssuer("Luwis")
-        .sign(Algorithm.HMAC256(secret));
-
-        TodoModel newTodo = new TodoModel("Title", "Desc", id);
-        TodoModel todo = todoRepository.save(newTodo);
-
-        tester.mutate()
-        .header("Authorization", "Bearer " + token)
-        .build()
-        .documentName("updateTodo")
-        .variable("id", todo.getId())
-        .variable("description", "")
-        .execute()
-        .path("$['errors'][0]", path -> {
-            InvalidDescriptionException exception = new InvalidDescriptionException();
-
-            String errorMessage = path.path("['message']").entity(String.class).get();
-
-            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
-
-            assertAll(
-                "shouldReturnInvalidTitle",
-                
-                () -> assertEquals(errorMessage, exception.getMessage()),
-                () -> assertEquals(errorType, exception.getType())
             );
         });
     }

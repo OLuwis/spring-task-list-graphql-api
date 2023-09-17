@@ -38,4 +38,9 @@ public class TodoController extends RequestHeaderInterceptor {
         return todoService.updateTodo(title, description, status, id, authHeader);
     }
 
+    @MutationMapping
+    public TodoModel updateStatus(@Argument long id, @ContextValue String authHeader) {
+        return todoService.updateStatus(id, authHeader);
+   }
+
 }

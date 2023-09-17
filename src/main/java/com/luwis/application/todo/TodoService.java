@@ -77,4 +77,18 @@ public class TodoService {
         return todoRepository.save(newTodo);
     }
 
+    public TodoModel updateStatus(long id, String header) {
+        long userid = todoUtils.isTokenValid(header);
+
+        Optional<TodoModel> todo = todoRepository.findByIdAndUserid(id, userid);
+
+        if (todo.isEmpty()) throw new TodoNotFoundException();
+
+        TodoModel newTodo = todo.get();
+        
+        newTodo.setStatus(!newTodo.getStatus());
+
+        return todoRepository.save(newTodo);
+    }
+
 }

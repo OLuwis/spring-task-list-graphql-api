@@ -1,8 +1,7 @@
-package com.luwis.application.mutations;
+package com.luwis.application.exceptions;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +12,29 @@ import org.springframework.graphql.test.tester.HttpGraphQlTester;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.luwis.application.todo.exceptions.UnauthorizedException;
+import com.luwis.application.todo.TodoModel;
+import com.luwis.application.todo.TodoRepository;
+import com.luwis.application.todo.exceptions.InvalidDescriptionException;
 
 @AutoConfigureHttpGraphQlTester
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CreateTodo {
+public class InvalidDescription {
 
     @Value("${JWT_SECRET}")
     private String secret;
     
     @Autowired
+    private TodoRepository todoRepository;
+    
+    @Autowired
     private HttpGraphQlTester tester;
 
+    private InvalidDescriptionException exception = new InvalidDescriptionException();
+
     @Test
-    void shouldReturnNewTodo() {
-        String title = "My Todo!";
-        String description = "My first todo!";
+    void shouldReturnInvalidDescriptionForCreateTodo() {
+        String title = "Title";
+        String description = "";
 
         String token = JWT.create()
         .withClaim("id", 1)
@@ -43,44 +49,45 @@ public class CreateTodo {
         .variable("title", title)
         .variable("description", description)
         .execute()
-        .path("$['data']['createTodo']", path -> {
-            Long userid = path.path("['userid']").entity(Long.class).get();
-            
-            String responseTitle = path.path("['title']").entity(String.class).get();
-
-            String responseDesc = path.path("['description']").entity(String.class).get();
-            
-            Boolean status = path.path("['status']").entity(Boolean.class).get();
+        .path("$['errors'][0]", path -> {
+            String errorMessage = path.path("['message']").entity(String.class).get();
+            String errorType = path.path("['extensions']['classification']").entity(String.class).get();
 
             assertAll(
-                "shouldReturnNewTodo",
-                () -> assertEquals(userid, 1),
-                () -> assertEquals(responseTitle, title),
-                () -> assertEquals(responseDesc, description),
-                () -> assertFalse(status)
+                "shouldReturnInvalidDescription",
+                () -> assertEquals(errorMessage, exception.getMessage()),
+                () -> assertEquals(errorType, exception.getType())
             );
         });
     }
 
     @Test
-    void shouldReturnActionNotAllowed() {
-        String title = "My Todo!";
-        String description = "My first todo!";
+    void shouldReturnInvalidDescriptionForUpdateTodo() {
+        String title = "Title";
+        String description = "";
 
-        tester.documentName("createTodo")
-        .variable("title", title)
+        String token = JWT.create()
+        .withClaim("id", 1)
+        .withClaim("username", "Luis")
+        .withIssuer("Luwis")
+        .sign(Algorithm.HMAC256(secret));
+
+        TodoModel newTodo = new TodoModel(title, description, 1);
+        TodoModel todo = todoRepository.save(newTodo);
+        
+        tester.mutate()
+        .header("Authorization", "Bearer " + token)
+        .build()
+        .documentName("updateTodo")
+        .variable("id", todo.getId())
         .variable("description", description)
         .execute()
         .path("$['errors'][0]", path -> {
-            UnauthorizedException exception = new UnauthorizedException();
-
             String errorMessage = path.path("['message']").entity(String.class).get();
-
             String errorType = path.path("['extensions']['classification']").entity(String.class).get();
 
             assertAll(
-                "shouldReturnInvalidTitle",
-                
+                "shouldReturnInvalidDescription",
                 () -> assertEquals(errorMessage, exception.getMessage()),
                 () -> assertEquals(errorType, exception.getType())
             );
