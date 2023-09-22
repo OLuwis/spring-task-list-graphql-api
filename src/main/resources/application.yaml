@@ -5,9 +5,8 @@ spring:
     graphiql:
       enabled: true
   jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:h2:mem:myDb
