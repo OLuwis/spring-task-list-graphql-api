@@ -1,0 +1,4 @@
+type Login {
+    user: UserImpl!
+    token: String!
+}
