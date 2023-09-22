@@ -1,4 +1,0 @@
-type Query {
-    getTodos: [Todo!]
-    userLogin(email: String!, password: String!): String!
-}
