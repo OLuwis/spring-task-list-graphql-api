@@ -1,5 +1,11 @@
-interface User {
+interface UserInterface {
     id: ID!
     name: String!
     email: String!
+}
+
+type User implements UserInterface {
+    id: ID!
+    name: String!
+    email: String!   
 }

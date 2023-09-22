@@ -1,3 +1,3 @@
 package com.luwis.application.graphql.interfaces;
 
-public interface User {}
+public record User(Long id, String name, String email) implements UserInterface {}

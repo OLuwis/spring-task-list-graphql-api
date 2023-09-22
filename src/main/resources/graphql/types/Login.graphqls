@@ -1,4 +1,4 @@
 type Login {
-    user: UserImpl!
+    user: User!
     token: String!
 }

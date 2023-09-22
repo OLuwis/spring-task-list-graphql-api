@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.luwis.application.graphql.inputs.LoginInput;
 import com.luwis.application.graphql.inputs.SignupInput;
-import com.luwis.application.graphql.interfaces.UserImpl;
+import com.luwis.application.graphql.interfaces.User;
 import com.luwis.application.graphql.types.Login;
 import com.luwis.application.graphql.types.Signup;
 import com.luwis.application.models.CustomUserDetails;
@@ -29,7 +29,7 @@ public class AuthService {
     public Signup signup(SignupInput input) {
         var entity = new UserModel(input.name(), input.email(), passwordEncoder.encode(input.password()));
         var data = userRepository.save(entity);
-        var user = new UserImpl(data.getId(), data.getName(), data.getEmail());
+        var user = new User(data.getId(), data.getName(), data.getEmail());
         return new Signup(user);
     }
 
@@ -39,7 +39,7 @@ public class AuthService {
         );
         String token = tokenService.generateToken(authentication);
         var data = (CustomUserDetails) authentication.getPrincipal();
-        var user = new UserImpl(data.getId(), data.getName(), data.getUsername());
+        var user = new User(data.getId(), data.getName(), data.getUsername());
         return new Login(user, token);
     }
 
