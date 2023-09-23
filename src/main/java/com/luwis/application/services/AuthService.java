@@ -2,7 +2,6 @@ package com.luwis.application.services;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,19 +26,18 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     
     public Signup signup(SignupInput input) {
-        var entity = new UserModel(input.name(), input.email(), passwordEncoder.encode(input.password()));
-        var data = userRepository.save(entity);
-        var user = new User(data.getId(), data.getName(), data.getEmail());
+        final var entity = new UserModel(input.name(), input.email(), passwordEncoder.encode(input.password()));
+        final var data = userRepository.save(entity);
+        final User user = new User(data.getId(), data.getName(), data.getEmail());
         return new Signup(user);
     }
 
     public Login login(LoginInput input) {
-        var authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(input.email(), input.password())
-        );
-        String token = tokenService.generateToken(authentication);
-        var data = (CustomUserDetails) authentication.getPrincipal();
-        var user = new User(data.getId(), data.getName(), data.getUsername());
+        final var auth = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(input.email(), input.password()));
+        final String token = tokenService.generateToken(auth);
+        final var data = (CustomUserDetails) auth.getPrincipal();
+        final User user = new User(data.getId(), data.getName(), data.getUsername());
         return new Login(user, token);
     }
 

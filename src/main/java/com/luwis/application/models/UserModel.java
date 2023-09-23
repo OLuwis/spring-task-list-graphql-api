@@ -12,10 +12,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@RequiredArgsConstructor
 @Entity
 @Table(name = "Users")
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class UserModel {
 
     @Id
