@@ -6,13 +6,11 @@ import graphql.GraphQLError;
 import graphql.execution.ResultPath;
 
 public class DataIntegrityResolver extends RuntimeException {
-    private final String message = " Error: This user is already registered.";
+    private final String message = " Error: This Email Is Registered";
     
     public GraphQLError resolve(ResultPath path) {
-        String prefix = path.toString().substring(1);
-
         return GraphQLError.newError()
-            .message(prefix + message)
+            .message(message)
             .errorType(ErrorType.BAD_REQUEST)
             .path(path)
             .build();

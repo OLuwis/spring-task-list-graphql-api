@@ -6,13 +6,9 @@ import graphql.GraphQLError;
 import graphql.execution.ResultPath;
 
 public class BadCredentialsResolver extends RuntimeException {
-    private final String message = " Error: This password is incorrect";
-
-    public GraphQLError resolve(ResultPath path) {
-        String prefix = path.toString().substring(1);
-        
+    public GraphQLError resolve(String message, ResultPath path) {
         return GraphQLError.newError()
-            .message(prefix + message)
+            .message(message)
             .errorType(ErrorType.BAD_REQUEST)
             .path(path)
             .build();
