@@ -1,0 +1,13 @@
+query LoginUser($email: String!, $password: String!) {
+    LoginUser(user: {
+        email: $email,
+        password: $password
+    }) {
+        user {
+            id
+            name
+            email
+        }
+        token
+    }
+}

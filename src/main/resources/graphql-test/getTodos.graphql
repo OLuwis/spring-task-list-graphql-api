@@ -1,9 +1,0 @@
-query getTodos {
-    getTodos {
-        id
-        title
-        description
-        status
-        userid
-    }
-}

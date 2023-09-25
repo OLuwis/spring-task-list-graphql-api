@@ -60,4 +60,12 @@ public class TokenService {
         return token.getClaim(claim);
     }
 
+    public String getSubject(Jwt token) {
+        return token.getSubject();
+    }
+
+    public String getClaim(String claim, Jwt token) {
+        return token.getClaim(claim);
+    }
+
 }

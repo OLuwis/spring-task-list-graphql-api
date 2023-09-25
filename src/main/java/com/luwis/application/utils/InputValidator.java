@@ -24,10 +24,10 @@ public class InputValidator {
         final var password = new PasswordData(input.password());
 
         if (!emailValidator.isValid(email)) 
-        throw new BadCredentialsException(" Error: Invalid Email");
+        throw new BadCredentialsException("Error: Invalid Email");
 
         if (!passValidator.validate(password).isValid()) 
-        throw new BadCredentialsException(" Error: Invalid Password");
+        throw new BadCredentialsException("Error: Invalid Password");
     }
 
     public void validate(LoginInput input) {
@@ -35,10 +35,10 @@ public class InputValidator {
         final var password = new PasswordData(input.password());
 
         if (!emailValidator.isValid(email)) 
-        throw new BadCredentialsException(" Error: Invalid Email");
+        throw new BadCredentialsException("Error: Invalid Email");
         
         if (!passValidator.validate(password).isValid()) 
-        throw new BadCredentialsException(" Error: Invalid Password");
+        throw new BadCredentialsException("Error: Invalid Password");
     }
 
 }

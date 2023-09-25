@@ -2,14 +2,6 @@ package com.luwis.application.configs;
 
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.validator.routines.EmailValidator;
-
-import org.passay.CharacterRule;
-import org.passay.EnglishCharacterData;
-import org.passay.LengthRule;
-import org.passay.PasswordValidator;
-import org.passay.WhitespaceRule;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,22 +43,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(
-                    csrf -> csrf.disable())
-                .authorizeHttpRequests(
-                    auth -> auth
-                        .requestMatchers(new AntPathRequestMatcher("/graphql")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/graphiql")).permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(
-                    session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .userDetailsService(customUserDetailsService)
-                .oauth2ResourceServer(
-                    oauth2 -> oauth2
-                        .jwt(jwt -> jwt.decoder(jwtDecoder())))
-                .build();
+        .csrf(
+            csrf -> csrf.disable())
+        .authorizeHttpRequests(
+            auth -> auth
+            .requestMatchers(new AntPathRequestMatcher("/graphql")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/graphiql")).permitAll()
+            .anyRequest().authenticated())
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .userDetailsService(customUserDetailsService)
+        .oauth2ResourceServer(
+            oauth2 -> oauth2
+            .jwt(jwt -> jwt.decoder(jwtDecoder())))
+        .build();
     }
-
+    
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) throws AuthenticationException {
         var authProvider = new DaoAuthenticationProvider();
@@ -79,9 +71,9 @@ public class SecurityConfig {
     public JwtDecoder jwtDecoder() {
         var key = new SecretKeySpec(jwtKey.getBytes(), "HmacSHA512");
         return NimbusJwtDecoder
-                .withSecretKey(key)
-                .macAlgorithm(MacAlgorithm.HS256)
-                .build();
+            .withSecretKey(key)
+            .macAlgorithm(MacAlgorithm.HS256)
+            .build();
     }
 
     @Bean
@@ -92,23 +84,6 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public EmailValidator emailValidator() {
-        return EmailValidator.getInstance();
-    }
-
-    @Bean
-    public PasswordValidator passwordValidator() {
-        return new PasswordValidator(
-            new LengthRule(8, 20),
-            new CharacterRule(EnglishCharacterData.UpperCase, 1),
-            new CharacterRule(EnglishCharacterData.LowerCase, 1),
-            new CharacterRule(EnglishCharacterData.Digit, 1),
-            new CharacterRule(EnglishCharacterData.Special, 1),
-            new WhitespaceRule()
-        );
     }
 
 }
