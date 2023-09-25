@@ -1,52 +1,39 @@
-package com.luwis.application.unit;
+package com.luwis.application.integration;
 
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.execution.ErrorType;
 import org.springframework.graphql.test.tester.GraphQlTester;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 
-import com.luwis.application.controllers.AuthController;
-import com.luwis.application.graphql.inputs.LoginInput;
 import com.luwis.application.graphql.interfaces.User;
-import com.luwis.application.graphql.types.Login;
-import com.luwis.application.services.AuthService;
-import com.luwis.application.unit.mocks.JwtMock;
-import com.luwis.application.utils.InputValidator;
+import com.luwis.application.models.UserModel;
+import com.luwis.application.repositories.UserRepository;
 
-@Import(JwtMock.class)
-@GraphQlTest(AuthController.class)
+@AutoConfigureGraphQlTester
 @TestMethodOrder(OrderAnnotation.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class LoginUser {
-    
+
     @Autowired
     private GraphQlTester tester;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    private JwtEncoder jwtEncoder;
-
+    private PasswordEncoder passwordEncoder;
+    
     @Autowired
     private JwtDecoder jwtDecoder;
-
-    @MockBean
-    private AuthService authService;
-
-    @MockBean
-    private InputValidator inputValidator;
-
-    private final JwtMock jwtMock = new JwtMock();
-
+    
     @Test
     @Order(1)
     void shouldReturnUserAndToken() {
@@ -54,12 +41,8 @@ public class LoginUser {
         String email = "myemail@gmail.com";
         String password = "12345Ab!";
 
-        var input = new LoginInput(email, password);
-        var user = new User((long) 1, name, email);
-        var token = jwtEncoder.encode(jwtMock.getParameters()).getTokenValue();
-        var response = new Login(user, token);
-
-        Mockito.doReturn(response).when(authService).login(input);
+        var newUser = new UserModel(name, email, passwordEncoder.encode(password));
+        userRepository.save(newUser);
 
         tester.documentName("LoginUser")
             .variable("name", name)
@@ -67,10 +50,16 @@ public class LoginUser {
             .variable("password", password)
             .execute()
             .path("$['data']['LoginUser']", path -> {
-                path.path("['user']").entity(User.class).get().equals(user);
+
+                path.path("['user']").entity(User.class).satisfies(user -> {
+                    user.name().equals(name);
+                    user.email().equals(email);
+                });
+
                 jwtDecoder.decode(
                     path.path("['token']").entity(String.class).get()
-                ).getSubject().equals("1");
+                ).getClaimAsString("scope").equals("READ WRITE UPDATE DELETE");
+
             });
     }
 
@@ -79,11 +68,6 @@ public class LoginUser {
     void shouldThrowInvalidEmail() {
         String email = "invalid@email";
         String password = "12345Ab!";
-        
-        var input = new LoginInput(email, password);
-        var exception = new BadCredentialsException("Error: Invalid Email");
-
-        Mockito.doThrow(exception).when(inputValidator).validate(input);
         
         tester.documentName("LoginUser")
             .variable("email", email)
@@ -101,11 +85,6 @@ public class LoginUser {
         String email = "myemail@gmail.com";
         String password = "Invalid";
         
-        var input = new LoginInput(email, password);
-        var exception = new BadCredentialsException("Error: Invalid Password");
-        
-        Mockito.doThrow(exception).when(inputValidator).validate(input);
-        
         tester.documentName("LoginUser")
             .variable("email", email)
             .variable("password", password)
@@ -122,11 +101,6 @@ public class LoginUser {
         String email = "unknown@gmail.com";
         String password = "12345Ab!";
         
-        var input = new LoginInput(email, password);
-        var exception = new UsernameNotFoundException("Error: User Is Not Registered");
-        
-        Mockito.doThrow(exception).when(inputValidator).validate(input);
-        
         tester.documentName("LoginUser")
             .variable("email", email)
             .variable("password", password)
@@ -136,5 +110,5 @@ public class LoginUser {
             .expect(error -> error.getErrorType().equals(ErrorType.NOT_FOUND))
             .expect(error -> error.getPath().equals("LoginUser"));
     }
-    
+
 }

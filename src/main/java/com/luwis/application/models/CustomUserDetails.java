@@ -39,8 +39,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        if (user == null) 
-        throw new UsernameNotFoundException(" Error: This Email Is Not Registered");
+        if (user == null) throw new UsernameNotFoundException("Error: User Is Not Registered");
         return user.getPassword();
     }
 
