@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 
 import com.luwis.application.graphql.inputs.LoginInput;
 import com.luwis.application.graphql.inputs.SignupInput;
-import com.luwis.application.graphql.types.Login;
-import com.luwis.application.graphql.types.Signup;
+import com.luwis.application.graphql.responses.LoginRes;
+import com.luwis.application.graphql.responses.SignupRes;
 import com.luwis.application.services.AuthService;
 import com.luwis.application.utils.InputValidator;
 
@@ -22,13 +22,13 @@ public class AuthController {
     private final AuthService authService;
 
     @MutationMapping
-    public Signup SignupUser(@Argument SignupInput user) {
+    public SignupRes Signup(@Argument SignupInput user) {
         inputValidator.validate(user);
         return authService.signup(user);
     }
     
     @QueryMapping
-    public Login LoginUser(@Argument LoginInput user) {
+    public LoginRes Login(@Argument LoginInput user) {
         inputValidator.validate(user);
         return authService.login(user);
     }

@@ -13,14 +13,14 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
-import com.luwis.application.graphql.interfaces.User;
+import com.luwis.application.graphql.types.User;
 import com.luwis.application.models.UserModel;
 import com.luwis.application.repositories.UserRepository;
 
 @AutoConfigureGraphQlTester
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class LoginUser {
+public class Login {
 
     @Autowired
     private GraphQlTester tester;

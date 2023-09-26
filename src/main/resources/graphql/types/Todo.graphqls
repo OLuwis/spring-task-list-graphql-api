@@ -3,5 +3,4 @@ type Todo {
     title: String!
     description: String!
     status: Boolean!
-    userid: ID!
 }

@@ -10,12 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.execution.ErrorType;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
-import com.luwis.application.graphql.interfaces.User;
+import com.luwis.application.graphql.types.User;
 
 @AutoConfigureGraphQlTester
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class SignupUser {
+public class Signup {
 
     @Autowired
     private GraphQlTester tester;

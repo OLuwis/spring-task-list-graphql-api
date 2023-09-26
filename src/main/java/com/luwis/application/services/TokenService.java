@@ -49,22 +49,13 @@ public class TokenService {
     }
 
     public String getSubject() {
-        var principal = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Jwt token = principal.getToken();
-        return token.getSubject();
+        var principal = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.getSubject();
     }
 
     public String getClaim(String claim) {
         var principal = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Jwt token = principal.getToken();
-        return token.getClaim(claim);
-    }
-
-    public String getSubject(Jwt token) {
-        return token.getSubject();
-    }
-
-    public String getClaim(String claim, Jwt token) {
         return token.getClaim(claim);
     }
 

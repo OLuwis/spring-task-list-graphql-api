@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,10 +46,12 @@ public class SecurityConfig {
         return http
         .csrf(
             csrf -> csrf.disable())
+        .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
         .authorizeHttpRequests(
             auth -> auth
             .requestMatchers(new AntPathRequestMatcher("/graphql")).permitAll()
             .requestMatchers(new AntPathRequestMatcher("/graphiql")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
             .anyRequest().authenticated())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

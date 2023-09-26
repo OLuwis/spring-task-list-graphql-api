@@ -16,14 +16,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 
 import com.luwis.application.controllers.AuthController;
 import com.luwis.application.graphql.inputs.SignupInput;
-import com.luwis.application.graphql.interfaces.User;
-import com.luwis.application.graphql.types.Signup;
+import com.luwis.application.graphql.responses.SignupRes;
+import com.luwis.application.graphql.types.User;
 import com.luwis.application.services.AuthService;
 import com.luwis.application.utils.InputValidator;
 
 @GraphQlTest(AuthController.class)
 @TestMethodOrder(OrderAnnotation.class)
-public class SignupUser {
+public class Signup {
 
     @Autowired
     private GraphQlTester tester;
@@ -43,7 +43,7 @@ public class SignupUser {
         
         var input = new SignupInput(name, email, password);
         var user = new User((long) 1, name, email);
-        var response = new Signup(user);
+        var response = new SignupRes(user);
 
         Mockito.doReturn(response).when(authService).signup(input);
         

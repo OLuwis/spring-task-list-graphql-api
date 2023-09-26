@@ -1,4 +1,4 @@
-type Login {
+type LoginRes {
     user: User!
     token: String!
 }

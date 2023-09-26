@@ -19,8 +19,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 
 import com.luwis.application.controllers.AuthController;
 import com.luwis.application.graphql.inputs.LoginInput;
-import com.luwis.application.graphql.interfaces.User;
-import com.luwis.application.graphql.types.Login;
+import com.luwis.application.graphql.responses.LoginRes;
+import com.luwis.application.graphql.types.User;
 import com.luwis.application.services.AuthService;
 import com.luwis.application.unit.mocks.JwtMock;
 import com.luwis.application.utils.InputValidator;
@@ -28,7 +28,7 @@ import com.luwis.application.utils.InputValidator;
 @Import(JwtMock.class)
 @GraphQlTest(AuthController.class)
 @TestMethodOrder(OrderAnnotation.class)
-public class LoginUser {
+public class Login {
     
     @Autowired
     private GraphQlTester tester;
@@ -57,7 +57,7 @@ public class LoginUser {
         var input = new LoginInput(email, password);
         var user = new User((long) 1, name, email);
         var token = jwtEncoder.encode(jwtMock.getParameters()).getTokenValue();
-        var response = new Login(user, token);
+        var response = new LoginRes(user, token);
 
         Mockito.doReturn(response).when(authService).login(input);
 
