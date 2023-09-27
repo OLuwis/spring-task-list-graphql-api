@@ -1,0 +1,3 @@
+extend type Mutation {
+    DeleteTodo(todo: DeleteTodoInput!): DeleteTodoRes!
+}
