@@ -1,0 +1,3 @@
+extend type Mutation {
+    UpdateTodo(todo: UpdateTodoInput!): UpdateTodoRes!
+}

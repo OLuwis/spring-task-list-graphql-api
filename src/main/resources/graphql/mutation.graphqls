@@ -1,4 +1,1 @@
-type Mutation {
-    updateTodo(title: String, description: String, status: Boolean, id: ID!): Todo!
-    updateStatus(id: ID!): Todo!
-}
+type Mutation {}

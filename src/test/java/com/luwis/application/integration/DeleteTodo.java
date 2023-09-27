@@ -89,7 +89,7 @@ public class DeleteTodo {
     @Order(3)
     void shouldThrowResourceNotFound() {
         String name = "MyName";
-        String email = "myemail@gmail.com";
+        String email = "myother@gmail.com";
         String password = "12345Ab!";
         
         var newUser = new UserModel(name, email, encoder.encode(password));

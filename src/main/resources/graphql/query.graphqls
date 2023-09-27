@@ -1,3 +1,1 @@
-type Query {
-    getTodos: [Todo!]
-}
+type Query {}
