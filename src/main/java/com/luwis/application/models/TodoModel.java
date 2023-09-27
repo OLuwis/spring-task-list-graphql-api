@@ -38,7 +38,7 @@ public class TodoModel {
     private Boolean status;
 
     @NonNull
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UserModel user;
     

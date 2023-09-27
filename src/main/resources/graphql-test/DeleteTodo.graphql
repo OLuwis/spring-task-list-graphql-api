@@ -1,0 +1,12 @@
+mutation DeleteTodo($id: ID!) {
+    DeleteTodo(todo: {
+        id: $id
+    }) {
+        todo {
+            id
+            title
+            description
+            status
+        }
+    }
+}

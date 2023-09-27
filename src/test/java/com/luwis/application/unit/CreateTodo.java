@@ -47,7 +47,8 @@ public class CreateTodo {
             .variable("description", description)
             .execute()
             .path("$['data']['CreateTodo']['todo']")
-            .entity(Todo.class).get()
+            .entity(Todo.class)
+            .get()
             .equals(todo);
     }
 

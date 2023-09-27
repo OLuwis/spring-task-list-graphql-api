@@ -38,7 +38,7 @@ public class UserModel {
     @NonNull
     private String password;
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<TodoModel> todos;
     
 }
