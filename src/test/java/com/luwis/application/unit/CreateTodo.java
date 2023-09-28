@@ -40,7 +40,7 @@ public class CreateTodo {
         var todo = new Todo((long) 1, title, description, false);
         var response = new CreateTodoRes(todo);
 
-        Mockito.doReturn(response).when(todoService).create(input);
+        Mockito.when(todoService.create(input)).thenReturn(response);
         
         tester.documentName("CreateTodo")
             .variable("title", title)
@@ -61,7 +61,7 @@ public class CreateTodo {
         var input = new CreateTodoInput(title, description);
         var exception = new AccessDeniedException(null);
 
-        Mockito.doThrow(exception).when(todoService).create(input);
+        Mockito.when(todoService.create(input)).thenThrow(exception);
 
         tester.documentName("CreateTodo")
             .variable("title", title)

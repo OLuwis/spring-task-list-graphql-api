@@ -45,7 +45,7 @@ public class Signup {
         var user = new User((long) 1, name, email);
         var response = new SignupRes(user);
 
-        Mockito.doReturn(response).when(authService).signup(input);
+        Mockito.when(authService.signup(input)).thenReturn(response);
         
         tester.documentName("SignupUser")
             .variable("name", name)
@@ -67,7 +67,7 @@ public class Signup {
         var input = new SignupInput(name, email, password);
         var exception = new DataIntegrityViolationException(null);
 
-        Mockito.doThrow(exception).when(authService).signup(input);
+        Mockito.when(authService.signup(input)).thenThrow(exception);
         
         tester.documentName("SignupUser")
             .variable("name", name)
@@ -90,7 +90,7 @@ public class Signup {
         var input = new SignupInput(name, email, password);
         var exception = new BadCredentialsException("Error: Invalid Email");
 
-        Mockito.doThrow(exception).when(inputValidator).validate(input);
+        Mockito.when(authService.signup(input)).thenThrow(exception);
         
         tester.documentName("SignupUser")
             .variable("name", name)
@@ -113,7 +113,7 @@ public class Signup {
         var input = new SignupInput(name, email, password);
         var exception = new BadCredentialsException("Error: Invalid Password");
         
-        Mockito.doThrow(exception).when(inputValidator).validate(input);
+        Mockito.when(authService.signup(input)).thenThrow(exception);
         
         tester.documentName("SignupUser")
             .variable("name", name)

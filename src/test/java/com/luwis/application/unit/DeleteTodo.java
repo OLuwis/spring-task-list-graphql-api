@@ -44,7 +44,7 @@ public class DeleteTodo {
         var input = new DeleteTodoInput(id);
         var response = new DeleteTodoRes(todo);
 
-        Mockito.doReturn(response).when(todoService).delete(input);
+        Mockito.when(todoService.delete(input)).thenReturn(response);
 
         tester.documentName("DeleteTodo")
             .variable("id", id)
@@ -63,7 +63,7 @@ public class DeleteTodo {
         var input = new DeleteTodoInput(id);
         var exception = new AccessDeniedException(null);
         
-        Mockito.doThrow(exception).when(todoService).delete(input);
+        Mockito.when(todoService.delete(input)).thenThrow(exception);
         
         tester.documentName("DeleteTodo")
             .variable("id", id)
@@ -82,7 +82,7 @@ public class DeleteTodo {
         var input = new DeleteTodoInput(id);
         var exception = new NoSuchElementException();
         
-        Mockito.doThrow(exception).when(todoService).delete(input);
+        Mockito.when(todoService.delete(input)).thenThrow(exception);
         
         tester.documentName("DeleteTodo")
             .variable("id", id)

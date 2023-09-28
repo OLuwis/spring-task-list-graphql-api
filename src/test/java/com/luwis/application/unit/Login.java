@@ -59,7 +59,7 @@ public class Login {
         var token = jwtEncoder.encode(jwtMock.getParameters()).getTokenValue();
         var response = new LoginRes(user, token);
 
-        Mockito.doReturn(response).when(authService).login(input);
+        Mockito.when(authService.login(input)).thenReturn(response);
 
         tester.documentName("LoginUser")
             .variable("name", name)
@@ -83,7 +83,7 @@ public class Login {
         var input = new LoginInput(email, password);
         var exception = new BadCredentialsException("Error: Invalid Email");
 
-        Mockito.doThrow(exception).when(inputValidator).validate(input);
+        Mockito.when(authService.login(input)).thenThrow(exception);
         
         tester.documentName("LoginUser")
             .variable("email", email)
@@ -104,7 +104,7 @@ public class Login {
         var input = new LoginInput(email, password);
         var exception = new BadCredentialsException("Error: Invalid Password");
         
-        Mockito.doThrow(exception).when(inputValidator).validate(input);
+        Mockito.when(authService.login(input)).thenThrow(exception);
         
         tester.documentName("LoginUser")
             .variable("email", email)
@@ -125,7 +125,7 @@ public class Login {
         var input = new LoginInput(email, password);
         var exception = new UsernameNotFoundException("Error: User Is Not Registered");
         
-        Mockito.doThrow(exception).when(inputValidator).validate(input);
+        Mockito.when(authService.login(input)).thenThrow(exception);
         
         tester.documentName("LoginUser")
             .variable("email", email)

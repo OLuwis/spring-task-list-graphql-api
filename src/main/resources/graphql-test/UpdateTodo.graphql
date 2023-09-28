@@ -1,0 +1,21 @@
+mutation UpdateTodo($id: ID!, $title: String, $description: String, $status: Boolean) {
+    UpdateTodo(todo: {
+        id: $id,
+        title: $title,
+        description: $description,
+        status: $status
+    }) {
+        before {
+            id
+            title
+            description
+            status
+        }
+        after {
+            id
+            title
+            description
+            status
+        }
+    }
+}
