@@ -1,5 +1,8 @@
 package com.luwis.application.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +11,7 @@ import com.luwis.application.graphql.inputs.DeleteTodoInput;
 import com.luwis.application.graphql.inputs.UpdateTodoInput;
 import com.luwis.application.graphql.responses.CreateTodoRes;
 import com.luwis.application.graphql.responses.DeleteTodoRes;
+import com.luwis.application.graphql.responses.GetTodosRes;
 import com.luwis.application.graphql.responses.UpdateTodoRes;
 import com.luwis.application.graphql.types.Todo;
 import com.luwis.application.models.TodoModel;
@@ -70,4 +74,17 @@ public class TodoService {
         return new UpdateTodoRes(before, after);
     }
 
+    public GetTodosRes get() {
+        var id = Long.valueOf(tokenService.getSubject());
+        
+        var todos = todoRepository.findAllByUser_id(id);
+
+        List<Todo> response = todos
+            .stream()
+            .map(todo -> {
+                return new Todo(todo.getId(), todo.getTitle(), todo.getDescription(), todo.getStatus());})
+            .collect(Collectors.toList());
+
+        return new GetTodosRes(response);
+    }
 }
