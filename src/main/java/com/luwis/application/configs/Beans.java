@@ -34,7 +34,7 @@ public class Beans {
     }
 
     @Bean
-    public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+    public RuntimeWiringConfigurer addScalarToSpring() {
         return wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.Date);
     }
 

@@ -4,29 +4,15 @@ scalar Date
 )
 
 type Mutation {
-    Signup(input: SignupInput!): {
-        user: User!
-    }
-
-    CreateTask(input: CreateTaskInput!): {
-        task: Task!
-    }
-
-    UpdateTask(input: UpdateTaskInput!): {
-        task: Task!
-    }
-
-    DeleteTask(id: ID!): {
-        task: Task!
-    }
+    Signup(input: SignupInput!): User!
+    CreateTask(input: CreateTaskInput!): Task!
+    UpdateTask(input: UpdateTaskInput!): Task!
+    DeleteTask(id: ID!): Task!
 }
 
 type Query {
-    Login(input: LoginInput!): {
-        token: String!
-    }
-
-    GetTasks: {
-        tasks: [Task!]!
-    }
+    #Login returns a JWT Token on successful login.
+    Login(input: LoginInput!): String!
+    #Requires JWT Token
+    GetTasks: [Task!]!
 }
