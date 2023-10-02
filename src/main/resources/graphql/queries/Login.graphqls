@@ -1,3 +1,0 @@
-extend type Query {
-    Login(user: LoginInput!): LoginRes!
-}

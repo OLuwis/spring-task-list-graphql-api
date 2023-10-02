@@ -1,4 +1,0 @@
-type LoginRes {
-    user: User!
-    token: String!
-}

@@ -1,0 +1,32 @@
+scalar Date 
+@specifiedBy(
+    url: "https://tools.ietf.org/html/rfc3339"
+)
+
+type Mutation {
+    Signup(input: SignupInput!): {
+        user: User!
+    }
+
+    CreateTask(input: CreateTaskInput!): {
+        task: Task!
+    }
+
+    UpdateTask(input: UpdateTaskInput!): {
+        task: Task!
+    }
+
+    DeleteTask(id: ID!): {
+        task: Task!
+    }
+}
+
+type Query {
+    Login(input: LoginInput!): {
+        token: String!
+    }
+
+    GetTasks: {
+        tasks: [Task!]!
+    }
+}

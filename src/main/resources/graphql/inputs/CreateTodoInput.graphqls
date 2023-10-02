@@ -1,4 +1,0 @@
-input CreateTodoInput {
-    title: String!
-    description: String!
-}

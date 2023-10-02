@@ -1,4 +1,0 @@
-type UpdateTodoRes {
-    before: Todo!
-    after: Todo!
-}

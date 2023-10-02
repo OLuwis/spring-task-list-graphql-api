@@ -1,6 +1,0 @@
-input UpdateTodoInput {
-    id: ID!
-    title: String
-    description: String
-    status: Boolean
-}

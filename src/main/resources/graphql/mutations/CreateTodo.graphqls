@@ -1,3 +1,0 @@
-extend type Mutation {
-    CreateTodo(todo: CreateTodoInput!): CreateTodoRes
-}
