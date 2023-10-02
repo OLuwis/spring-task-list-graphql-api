@@ -1,4 +1,4 @@
-package com.luwis.application.models;
+package com.luwis.application.entities;
 
 import java.util.List;
 

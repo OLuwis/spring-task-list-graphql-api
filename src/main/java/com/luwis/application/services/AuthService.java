@@ -6,13 +6,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.luwis.application.entities.CustomUserDetails;
+import com.luwis.application.entities.Task;
+import com.luwis.application.entities.UserModel;
 import com.luwis.application.graphql.inputs.LoginInput;
 import com.luwis.application.graphql.inputs.SignupInput;
 import com.luwis.application.graphql.responses.LoginRes;
 import com.luwis.application.graphql.responses.SignupRes;
 import com.luwis.application.graphql.types.User;
-import com.luwis.application.models.CustomUserDetails;
-import com.luwis.application.models.UserModel;
 import com.luwis.application.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;

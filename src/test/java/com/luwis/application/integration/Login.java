@@ -13,8 +13,8 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
+import com.luwis.application.entities.UserModel;
 import com.luwis.application.graphql.types.User;
-import com.luwis.application.models.UserModel;
 import com.luwis.application.repositories.UserRepository;
 
 @AutoConfigureGraphQlTester

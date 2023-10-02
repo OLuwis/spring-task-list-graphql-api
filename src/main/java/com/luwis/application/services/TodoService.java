@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import com.luwis.application.entities.TodoModel;
 import com.luwis.application.graphql.inputs.CreateTodoInput;
 import com.luwis.application.graphql.inputs.DeleteTodoInput;
 import com.luwis.application.graphql.inputs.UpdateTodoInput;
@@ -14,7 +15,6 @@ import com.luwis.application.graphql.responses.DeleteTodoRes;
 import com.luwis.application.graphql.responses.GetTodosRes;
 import com.luwis.application.graphql.responses.UpdateTodoRes;
 import com.luwis.application.graphql.types.Todo;
-import com.luwis.application.models.TodoModel;
 import com.luwis.application.repositories.TodoRepository;
 import com.luwis.application.repositories.UserRepository;
 

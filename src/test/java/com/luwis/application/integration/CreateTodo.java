@@ -12,9 +12,9 @@ import org.springframework.graphql.execution.ErrorType;
 import org.springframework.graphql.test.tester.HttpGraphQlTester;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.luwis.application.entities.UserModel;
 import com.luwis.application.graphql.inputs.LoginInput;
 import com.luwis.application.graphql.types.Todo;
-import com.luwis.application.models.UserModel;
 import com.luwis.application.repositories.UserRepository;
 import com.luwis.application.services.AuthService;
 

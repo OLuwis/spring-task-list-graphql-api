@@ -18,7 +18,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import com.luwis.application.models.CustomUserDetails;
+import com.luwis.application.entities.CustomUserDetails;
 
 import lombok.RequiredArgsConstructor;
 

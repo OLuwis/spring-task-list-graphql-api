@@ -1,44 +1,48 @@
-package com.luwis.application.models;
+package com.luwis.application.entities;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @Entity
-@Table(name = "Todos")
+@Table(name = "Tasks", indexes = @Index(name = "uid_index", columnList = "user_id"))
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class TodoModel {
-    
+public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @NonNull
+    @Column(length = 50)
     private String title;
 
     @NonNull
+    @Column(length = 100)
     private String description;
 
-    @NonNull
-    private Boolean status;
+    @Column(insertable = false)
+    private Boolean pending = false;
+
+    @Column(insertable = false)
+    private LocalDate createdAt = LocalDate.now();
 
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private UserModel user;
-    
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private User user;
 }

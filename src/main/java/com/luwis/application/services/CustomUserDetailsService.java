@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.luwis.application.models.CustomUserDetails;
+import com.luwis.application.entities.CustomUserDetails;
 import com.luwis.application.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
