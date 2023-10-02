@@ -9,11 +9,11 @@ import org.passay.WhitespaceRule;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import lombok.RequiredArgsConstructor;
+import graphql.scalars.ExtendedScalars;
 
 @Configuration
-@RequiredArgsConstructor
 public class Beans {
 
     @Bean
@@ -31,6 +31,11 @@ public class Beans {
             new CharacterRule(EnglishCharacterData.Special, 1),
             new WhitespaceRule()
         );
+    }
+
+    @Bean
+    public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+        return wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.Date);
     }
 
 }
