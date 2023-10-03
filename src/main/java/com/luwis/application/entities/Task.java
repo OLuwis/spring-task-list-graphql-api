@@ -36,7 +36,7 @@ public class Task {
     private String description;
 
     @Column(insertable = false)
-    private Boolean pending = false;
+    private Boolean pending = true;
 
     @Column(insertable = false)
     private LocalDate createdAt = LocalDate.now();
