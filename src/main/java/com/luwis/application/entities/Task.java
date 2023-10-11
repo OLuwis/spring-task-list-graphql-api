@@ -30,15 +30,14 @@ public class Task {
     @NonNull
     @Column(length = 50)
     private String title;
-
-    @NonNull
+    
     @Column(length = 100)
     private String description;
 
-    @Column(insertable = false)
+    @Column
     private Boolean pending = true;
 
-    @Column(insertable = false)
+    @Column(updatable = false)
     private LocalDate createdAt = LocalDate.now();
 
     @NonNull

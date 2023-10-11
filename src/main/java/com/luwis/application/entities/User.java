@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "Users_Test", indexes = @Index(name = "e_index", columnList = "email", unique = true))
+@Table(name = "Users", indexes = @Index(name = "e_index", columnList = "email", unique = true))
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class User {

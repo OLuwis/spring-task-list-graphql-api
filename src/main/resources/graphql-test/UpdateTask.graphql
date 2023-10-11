@@ -1,0 +1,14 @@
+mutation UpdateTask($id: ID!, $title: String, $description: String, $pending: Boolean) {
+    UpdateTask (input: {
+        id: $id
+        title: $title
+        description: $description
+        pending: $pending
+    }) {
+        id
+        title
+        description
+        pending
+        createdAt
+    }
+}

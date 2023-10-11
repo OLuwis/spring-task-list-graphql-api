@@ -1,0 +1,9 @@
+query GetTasks {
+    GetTasks {
+        id
+        title
+        description
+        pending
+        createdAt
+    }
+}

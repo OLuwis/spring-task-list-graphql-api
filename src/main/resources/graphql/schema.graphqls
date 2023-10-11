@@ -5,8 +5,11 @@ scalar Date
 
 type Mutation {
     Signup(input: SignupInput!): User!
+    #Requires JWT Token
     CreateTask(input: CreateTaskInput!): Task!
+    #Requires JWT Token
     UpdateTask(input: UpdateTaskInput!): Task!
+    #Requires JWT Token
     DeleteTask(id: ID!): Task!
 }
 
