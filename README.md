@@ -15,7 +15,7 @@ A API usa um sistema de autenticação JWT feita com o Spring Security, também 
     ```
     git clone https://github.com/OLuwis/TaskListGraphQLAPI.git
     ```
-2. __Crie um arquivo .env e defina as variáveis de ambiente (exemplo com minha chave para API:)__
+2. __Crie um arquivo .env e defina as variáveis de ambiente (exemplo com chave AES256 gerada:)__
     ```
     JWT_KEY=e9F0rkYIwXP2ld1Dn6DxEdtlmsaA2JiL
     ```
