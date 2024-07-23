@@ -16,29 +16,25 @@ Esta API possui consultas e mutações para cadastro, login e CRUD, tokens JWT p
 
 ### Requisitos:
 
-* [Java 17+][Java-url]
-* [Maven][Maven-url]
+* [Java 17+](https://java.com/pt-BR/)
+* [Maven](https://maven.apache.org/)
 
 ### Instalação:
 
-1. Clone este repositório:
+1. Clonar este repositório:
    ```sh
    git clone https://github.com/OLuwis/TaskListGraphQLAPI.git
    ```
 
-2. Crie um arquivo .env e defina as variáveis de ambiente (exemplo com uma chave AES256 aleatória):
+2. Criar um arquivo .env, e definir as variáveis de ambiente (exemplo com uma chave AES256 aleatória):
    ```js
    JWT_KEY=e9F0rkYIwXP2ld1Dn6DxEdtlmsaA2JiL
    ```
 
-## Inicialização
+### Inicialização:
 
-Para iniciar o projeto rode o seguinte comando:
+Para iniciar o projeto, rode o seguinte comando:
 
    ```sh
    mvn spring-boot:run
    ```
-
-<!-- LINKS -->
-[Java-url]: https://java.com/pt-BR/
-[Maven-url]: https://maven.apache.org/
