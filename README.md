@@ -1,7 +1,10 @@
 ### Sobre o projeto:
 
-Um projeto que fiz de uma API GraphQL com Java, Maven, Spring, Spring GraphQL, Spring Data JPA, Spring JDBC, Lombok, H2 Database, Spring Security, Passay e Apache Commons.\
+Um projeto que fiz de uma API GraphQL com Java, Maven, Spring, Spring GraphQL, Spring Data JPA, Spring JDBC, Lombok, H2 Database, Spring Security, Passay e Apache Commons.
+
 Esta API possui consultas e mutações para cadastro, login e CRUD, tokens JWT para autenticação, criptografia de senhas, também possui testes de integração feitas com o Spring GraphQL Test.
+
+Você pode ler sobre o projeto [aqui](https://medium.com/@luwis/list/criando-uma-api-graphql-com-java-spring-boot-16ce75e1b7ad).
 
 ### Feito com:
 
