@@ -1,25 +1,18 @@
-<div align="center">
-  <h3 align="center">Task List GraphQL API</h3>
-
-  <p align="center">
-    Uma API GraphQL Feita Com Java E Spring Boot.
-  </p>
-</div>
-
 ### Sobre o projeto:
 
-Um projeto que fiz de uma API GraphQL com Java, Maven, Spring-Boot, Spring-GraphQL, Spring-Data-JPA, Spring-JDBC, Lombok, H2-Database, Spring-Security, Passay, Apache Commons.
-
-Esta API possui authenticação, queries e mutações para cadastro e login, JsonWebTokens para authenticação, criptografia de senhas, também possui testes de integração feitas com o Spring-GraphQL-Test.
+Um projeto que fiz de uma API GraphQL com Java, Maven, Spring, Spring GraphQL, Spring Data JPA, Spring JDBC, Lombok, H2 Database, Spring Security, Passay e Apache Commons.
+Esta API possui consultas e mutações para cadastro e login, tokens JWT para autenticação, criptografia de senhas, também possui testes de integração feitas com o Spring GraphQL Test.
 
 ### Feito com:
 
-[![Java][Java]][Java-url]
-[![SpringBoot][SpringBoot]][SpringBoot-url]
-[![SpringSecurity][SpringSecurity]][SpringSecurity-url]
-[![GraphQL][GraphQL]][GraphQL-url]
-[![Apache][Apache]][Apache-url]
-[![Tomcat][Tomcat]][Tomcat-url]
+![Java Badge](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Badge](https://img.shields.io/badge/Spring-6DB33F?logo=spring&logoColor=fff&style=for-the-badge)
+![Spring Boot Badge](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff&style=for-the-badge)
+![Spring Security Badge](https://img.shields.io/badge/Spring%20Security-6DB33F?logo=springsecurity&logoColor=fff&style=for-the-badge)
+![GraphQL Badge](https://img.shields.io/badge/GraphQL-E10098?logo=graphql&logoColor=fff&style=for-the-badge)
+![Apache Maven Badge](https://img.shields.io/badge/Apache%20Maven-C71A36?logo=apachemaven&logoColor=fff&style=for-the-badge)
+![Apache Tomcat Badge](https://img.shields.io/badge/Apache%20Tomcat-F8DC75?logo=apachetomcat&logoColor=000&style=for-the-badge)
+![.ENV Badge](https://img.shields.io/badge/.ENV-ECD53F?logo=dotenv&logoColor=000&style=for-the-badge)
 
 ### Requisitos:
 
@@ -46,34 +39,6 @@ Para iniciar o projeto rode o seguinte comando:
    mvn spring-boot:run
    ```
 
-### Contatos:
-
-[![LinkedIn][LinkedIn]][Linkedin-url]
-[![Gmail][Gmail]][Gmail-url]
-
 <!-- LINKS -->
-[LinkedIn]: https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=fff&style=for-the-badge
-[Linkedin-url]: https://linkedin.com/in/luismiguelreis
-
-[Gmail]: https://img.shields.io/badge/Gmail-EA4335?logo=gmail&logoColor=fff&style=for-the-badge
-[Gmail-url]: mailto:oluismrs@gmail.com
-
-[Java]: https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
 [Java-url]: https://java.com/pt-BR/
-
-[SpringBoot]: https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=Spring%20Boot&logoColor=white
-[SpringBoot-url]: https://spring.io/projects/spring-boot
-
-[SpringSecurity]: https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white
-[SpringSecurity-url]: https://spring.io/projects/spring-security
-
-[GraphQL]: https://img.shields.io/badge/GraphQL-E434AA?style=for-the-badge&logo=graphql&logoColor=white
-[GraphQL-url]: https://graphql.org/
-
-[Apache]: https://img.shields.io/badge/Apache-D22128?style=for-the-badge&logo=Apache&logoColor=white
-[Apache-url]: https://commons.apache.org/
-
-[Tomcat]: https://img.shields.io/badge/Apache%20Tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black
-[Tomcat-url]: https://tomcat.apache.org/
-
 [Maven-url]: https://maven.apache.org/
